@@ -12,6 +12,7 @@ auto WadLoader::load_file(const string& filename) -> void {
     
     WadHeader header;
     WadLump lump;
+    Wad wad;
 
     fstream wad_file(filename, fstream::in | fstream::binary);
     
@@ -25,7 +26,10 @@ auto WadLoader::load_file(const string& filename) -> void {
     wad_file.seekg(header.infotableops, wad_file.beg);
     wad_file.read(reinterpret_cast<char *>(lumps.get()), length);
     
-    cout << lumps[0].name << endl;
+    vector<WadLump> vlumps(lumps.get(), lumps.get()+header.numlumps);
+    
+    wad.header = header;
+    wad.lumps = vlumps;
     
     wad_file.close();
     

@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <iterator>
+#include <vector>
 
 using namespace std;
 
@@ -40,8 +42,9 @@ struct WadDirectory {
 #pragma pack(pop)
 
 
-struct WadFile {
+struct Wad {
     WadHeader header;
+    vector<WadLump> lumps;
 };
 
 class WadLoader {
