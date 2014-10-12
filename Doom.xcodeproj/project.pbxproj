@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A22C9BB219EA9FB20008DA28 /* WadLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A22C9BB019EA9FB20008DA28 /* WadLoader.cpp */; };
 		A27009B519EA9E4A001686DB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A27009B419EA9E4A001686DB /* main.cpp */; };
-		A27009B719EA9E4A001686DB /* Doom.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = A27009B619EA9E4A001686DB /* Doom.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,16 +18,16 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				A27009B719EA9E4A001686DB /* Doom.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A22C9BB019EA9FB20008DA28 /* WadLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WadLoader.cpp; sourceTree = "<group>"; };
+		A22C9BB119EA9FB20008DA28 /* WadLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WadLoader.h; sourceTree = "<group>"; };
 		A27009B119EA9E4A001686DB /* Doom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Doom; sourceTree = BUILT_PRODUCTS_DIR; };
 		A27009B419EA9E4A001686DB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		A27009B619EA9E4A001686DB /* Doom.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Doom.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +41,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A22C9BAC19EA9F960008DA28 /* wad */ = {
+			isa = PBXGroup;
+			children = (
+				A22C9BB019EA9FB20008DA28 /* WadLoader.cpp */,
+				A22C9BB119EA9FB20008DA28 /* WadLoader.h */,
+			);
+			name = wad;
+			sourceTree = "<group>";
+		};
 		A27009A819EA9E4A001686DB = {
 			isa = PBXGroup;
 			children = (
@@ -60,8 +69,8 @@
 		A27009B319EA9E4A001686DB /* Doom */ = {
 			isa = PBXGroup;
 			children = (
+				A22C9BAC19EA9F960008DA28 /* wad */,
 				A27009B419EA9E4A001686DB /* main.cpp */,
-				A27009B619EA9E4A001686DB /* Doom.1 */,
 			);
 			path = Doom;
 			sourceTree = "<group>";
@@ -118,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A27009B519EA9E4A001686DB /* main.cpp in Sources */,
+				A22C9BB219EA9FB20008DA28 /* WadLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +237,7 @@
 				A27009BC19EA9E4A001686DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
