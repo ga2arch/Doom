@@ -13,34 +13,17 @@
 
 using namespace std;
 
-#pragma pack(push, 1)
-
 struct WadHeader {
-    char identification[4];
+    char identification[5];
     int numlumps;
     int infotableops;
 };
 
-#pragma pack(pop)
-
-#pragma pack(push, 1)
-
 struct WadLump {
     int filepos;
     int size;
-    char name[8];
+    char name[9];
 };
-
-#pragma pack(pop)
-
-#pragma pack(push, 1)
-
-struct WadDirectory {
-    
-};
-
-#pragma pack(pop)
-
 
 struct Wad {
     WadHeader header;
@@ -54,5 +37,5 @@ public:
     
     
 private:
-    WadFile wad;
+    Wad wad;
 };
