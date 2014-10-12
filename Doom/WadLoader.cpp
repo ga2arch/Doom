@@ -19,13 +19,13 @@ auto WadLoader::load_file(const string& filename) -> void {
     
     cout << header.numlumps << endl;
     
-    auto length = header.numlumps*sizeof(lump);
-    WadLump* lumps = new WadLump[length];
+    auto length = header.numlumps * sizeof(lump);
+    auto lumps = unique_ptr<WadLump[]>(new WadLump[length]);
     
     wad_file.seekg(header.infotableops, wad_file.beg);
-    wad_file.read(reinterpret_cast<char *>(lumps), length);
+    wad_file.read(reinterpret_cast<char *>(lumps.get()), length);
     
-    cout << lumps->name << endl;
+    cout << lumps[0].name << endl;
     
     wad_file.close();
     
