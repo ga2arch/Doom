@@ -11,6 +11,8 @@
 #include <iterator>
 #include <vector>
 
+#include "Lumps.h"
+
 using namespace std;
 
 #pragma pack(push, 1)
@@ -25,20 +27,6 @@ struct WadLump {
     int size;
     char name[8];
 };
-
-struct Vertex {
-    int16_t x;
-    int16_t y;
-};
-
-struct Thing {
-    int16_t x;
-    int16_t y;
-    int16_t angle;
-    int16_t type;
-    int16_t options;
-};
-
 #pragma pack(pop)
 
 struct Wad {
