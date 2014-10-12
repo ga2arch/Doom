@@ -13,8 +13,9 @@
 
 using namespace std;
 
+#pragma pack(push, 1)
 struct WadHeader {
-    char identification[5];
+    char identification[4];
     int numlumps;
     int infotableops;
 };
@@ -22,12 +23,29 @@ struct WadHeader {
 struct WadLump {
     int filepos;
     int size;
-    char name[9];
+    char name[8];
 };
+
+struct Vertex {
+    int16_t x;
+    int16_t y;
+};
+
+struct Thing {
+    int16_t x;
+    int16_t y;
+    int16_t angle;
+    int16_t type;
+    int16_t options;
+};
+
+#pragma pack(pop)
 
 struct Wad {
     WadHeader header;
     vector<WadLump> lumps;
+    vector<Vertex> vertexes;
+    vector<Thing>  things;
 };
 
 class WadLoader {
@@ -38,4 +56,6 @@ public:
     
 private:
     Wad wad;
+    
+    auto load_header() -> void;
 };

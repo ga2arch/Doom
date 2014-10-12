@@ -15,34 +15,53 @@ auto WadLoader::load_file(const string& filename) -> void {
 
     fstream wad_file(filename, fstream::in | fstream::binary);
     
-    wad_file.read(reinterpret_cast<char*>(&header.identification), sizeof(header.identification)-1);
-    header.identification[4] = '\0';
+    // Load header
+    wad_file.read(reinterpret_cast<char*>(&header), sizeof(header));
 
-    wad_file.read(reinterpret_cast<char*>(&header.numlumps), sizeof header.numlumps);
-    wad_file.read(reinterpret_cast<char*>(&header.infotableops), sizeof header.infotableops);
-
-    cout << sizeof(header.infotableops) << endl;
-    
+    // Load lumps
     vector<WadLump> lumps;
+    vector<Vertex>  vertexes;
+    vector<Thing>   things;
+    
     wad_file.seekg(header.infotableops, wad_file.beg);
     
     for (int i=0; i < header.numlumps; i++) {
         WadLump lump;
 
-        wad_file.read(reinterpret_cast<char *>(&lump.filepos), sizeof lump.filepos);
-        wad_file.read(reinterpret_cast<char *>(&lump.size), sizeof lump.size);
-        wad_file.read(reinterpret_cast<char *>(&lump.name), sizeof(lump.name)-1);
-        lump.name[8] = '\0';
-        
+        wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
         lumps.push_back(lump);
+        
+        if (strncmp("VERTEXES", lump.name, 7) == 0) {
+            Vertex v;
+            auto old = wad_file.tellg();
+            
+            wad_file.seekg(lump.filepos, wad_file.beg);
+            wad_file.read(reinterpret_cast<char *>(&v), sizeof v);
+            wad_file.seekg(old, wad_file.beg);
+            
+            vertexes.push_back(v);
+        }
+        
+        if (strncmp("THINGS", lump.name, 6) == 0) {
+            Thing t;
+            auto old = wad_file.tellg();
+            
+            wad_file.seekg(lump.filepos, wad_file.beg);
+            wad_file.read(reinterpret_cast<char *>(&t), sizeof t);
+            wad_file.seekg(old, wad_file.beg);
+            
+            things.push_back(t);
+        }
     }
     
-    for (auto& e: lumps) {
-        cout << e.name << endl;
+    for (auto& e: things) {
+        cout << e.x << "\t" << e.y << endl;
     }
     
     wad.header = header;
     wad.lumps  = lumps;
+    wad.vertexes = vertexes;
+    wad.things   = things;
     
     wad_file.close();
     
