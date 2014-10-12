@@ -8,12 +8,25 @@
 
 #include "WadLoader.h"
 
-auto WadLoader::load_file(const string &filename) -> void {
+auto WadLoader::load_file(const string& filename) -> void {
     
     WadHeader header;
+    WadLump lump;
+
     fstream wad_file(filename, fstream::in | fstream::binary);
     
     wad_file.read(reinterpret_cast<char *>(&header), sizeof(header));
     
     cout << header.numlumps << endl;
+    
+    auto length = header.numlumps*sizeof(lump);
+    WadLump* lumps = new WadLump[length];
+    
+    wad_file.seekg(header.infotableops, wad_file.beg);
+    wad_file.read(reinterpret_cast<char *>(lumps), length);
+    
+    cout << lumps->name << endl;
+    
+    wad_file.close();
+    
 }

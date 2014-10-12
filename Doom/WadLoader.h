@@ -21,6 +21,25 @@ struct WadHeader {
 
 #pragma pack(pop)
 
+#pragma pack(push, 1)
+
+struct WadLump {
+    int filepos;
+    int size;
+    char name[8];
+};
+
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+
+struct WadDirectory {
+    
+};
+
+#pragma pack(pop)
+
+
 struct WadFile {
     WadHeader header;
 };
