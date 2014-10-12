@@ -31,9 +31,9 @@ struct WadLump {
 
 struct Wad {
     WadHeader header;
-    vector<WadLump> lumps;
-    vector<Vertex> vertexes;
+
     vector<Thing>  things;
+    vector<Vertex> vertexes;
 };
 
 class WadLoader {
@@ -46,4 +46,7 @@ private:
     Wad wad;
     
     auto load_header() -> void;
+
+    template <typename T>
+    auto load_struct(fstream& wad_file, const char* type, vector<T>& v) -> void;
 };
