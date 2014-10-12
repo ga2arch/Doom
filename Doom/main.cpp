@@ -8,8 +8,11 @@
 
 #include <iostream>
 
-int main(int argc, const char * argv[])
-{
+#include "WadLoader.h"
 
+int main(int argc, const char * argv[]) {
+    WadLoader loader;
+    
+    loader.load_file("doom.wad");
 }
 
