@@ -18,7 +18,7 @@ struct Thing {
     int16_t y;
     int16_t angle;
     int16_t type;
-    int16_t options;
+    int16_t flag;
 };
 
 #pragma pack(pop)

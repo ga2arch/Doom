@@ -26,10 +26,7 @@ auto WadLoader::load_struct(fstream& wad_file, const char* type, vector<T>& v) -
 }
 
 auto WadLoader::load_file(const string& filename) -> void {
-    
     WadHeader header;
-    Wad wad;
-
     fstream wad_file(filename, fstream::in | fstream::binary);
     
     // Load header
