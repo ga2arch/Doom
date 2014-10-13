@@ -74,4 +74,14 @@ struct Node {
     int16_t node_ssector_num_left;
 };
 
+struct Sectors {
+    int16_t floor_heigth;
+    int16_t ceiling_heigth;
+    char floor_tex[8];
+    char ceiling_tex[8];
+    int16_t ligthlevel;
+    int16_t special_sector;
+    int16_t tag;
+};
+
 #pragma pack(pop)
