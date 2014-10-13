@@ -16,7 +16,7 @@ struct Thing {
     int16_t flag;
 };
 
-struct Linedefs {
+struct Linedef {
     int16_t from;
     int16_t to;
     int16_t flags;
@@ -26,7 +26,7 @@ struct Linedefs {
     int16_t left_sidedef;
 };
 
-struct Sidedefs {
+struct Sidedef {
     int16_t x_offset;
     int16_t y_offset;
     char upper_text_name[8];
@@ -40,7 +40,7 @@ struct Vertex {
     int16_t y;
 };
 
-struct Segs {
+struct Seg {
     int16_t start;
     int16_t end;
     int16_t angle;
@@ -49,11 +49,29 @@ struct Segs {
     int16_t offset;
 };
 
-struct Subsectors {
+struct Subsector {
     int16_t segs_num;
     int16_t segs_start;
 };
 
-
+struct Node {
+    int16_t x;
+    int16_t y;
+    int16_t dx;
+    int16_t dy;
+    
+    int16_t y_upper_bound_rigth;
+    int16_t y_lower_bound_rigth;
+    int16_t x_upper_bound_rigth;
+    int16_t x_lower_bound_rigth;
+    
+    int16_t y_upper_bound_left;
+    int16_t y_lower_bound_left;
+    int16_t x_upper_bound_left;
+    int16_t x_lower_bound_left;
+    
+    int16_t node_ssector_num_rigth;
+    int16_t node_ssector_num_left;
+};
 
 #pragma pack(pop)
