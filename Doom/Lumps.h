@@ -49,6 +49,11 @@ struct Segs {
     int16_t offset;
 };
 
+struct Subsectors {
+    int16_t segs_num;
+    int16_t segs_start;
+};
+
 
 
 #pragma pack(pop)
