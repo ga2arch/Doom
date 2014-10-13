@@ -16,11 +16,6 @@ struct Thing {
     int16_t flag;
 };
 
-struct Vertex {
-    int16_t x;
-    int16_t y;
-};
-
 struct Linedefs {
     int16_t from;
     int16_t to;
@@ -38,6 +33,20 @@ struct Sidedefs {
     char lower_text_name[8];
     char middle_text_name[8];
     int16_t sector;
+};
+
+struct Vertex {
+    int16_t x;
+    int16_t y;
+};
+
+struct Segs {
+    int16_t start;
+    int16_t end;
+    int16_t angle;
+    int16_t linedef;
+    int16_t direction;
+    int16_t offset;
 };
 
 
