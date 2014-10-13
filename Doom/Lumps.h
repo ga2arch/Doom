@@ -8,11 +8,6 @@
 
 #pragma pack(push, 1)
 
-struct Vertex {
-    int16_t x;
-    int16_t y;
-};
-
 struct Thing {
     int16_t x;
     int16_t y;
@@ -20,5 +15,25 @@ struct Thing {
     int16_t type;
     int16_t flag;
 };
+
+struct Vertex {
+    int16_t x;
+    int16_t y;
+};
+
+struct Linedefs {
+    int16_t from;
+    int16_t to;
+    int16_t flags;
+    int16_t types;
+    int16_t tag;
+    int16_t rigth_sidedef;
+    int16_t left_sidedef;
+};
+
+struct Sidedefs {
+    
+};
+
 
 #pragma pack(pop)
