@@ -32,8 +32,14 @@ struct Linedefs {
 };
 
 struct Sidedefs {
-    
+    int16_t x_offset;
+    int16_t y_offset;
+    char upper_text_name[8];
+    char lower_text_name[8];
+    char middle_text_name[8];
+    int16_t sector;
 };
+
 
 
 #pragma pack(pop)
