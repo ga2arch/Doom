@@ -18,13 +18,13 @@ using namespace std;
 #pragma pack(push, 1)
 struct WadHeader {
     char identification[4];
-    int numlumps;
-    int infotableops;
+    int32_t numlumps;
+    int32_t infotableops;
 };
 
 struct WadLump {
-    int filepos;
-    int size;
+    int32_t filepos;
+    int32_t size;
     char name[8];
 };
 #pragma pack(pop)
@@ -49,4 +49,6 @@ private:
 
     template <typename T>
     auto load_struct(fstream& wad_file, const char* type, vector<T>& v) -> void;
+    auto load_struct(fstream& wad_file, vector<Blockmap>& v) -> void;
+    
 };

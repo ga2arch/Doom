@@ -55,10 +55,10 @@ struct Subsector {
 };
 
 struct Node {
-    int16_t x;
-    int16_t y;
-    int16_t dx;
-    int16_t dy;
+    int32_t x;
+    int32_t y;
+    int32_t dx;
+    int32_t dy;
     
     int16_t y_upper_bound_rigth;
     int16_t y_lower_bound_rigth;
@@ -74,7 +74,7 @@ struct Node {
     int16_t node_ssector_num_left;
 };
 
-struct Sectors {
+struct Sector {
     int16_t floor_heigth;
     int16_t ceiling_heigth;
     char floor_tex[8];
@@ -83,5 +83,23 @@ struct Sectors {
     int16_t special_sector;
     int16_t tag;
 };
+
+struct Header {
+    int16_t x;
+    int16_t y;
+    int16_t col_num;
+    int16_t row_num;
+};
+
+struct Block {
+    std::vector<int16_t> linedefs;
+};
+
+struct Blockmap {
+    Header header;
+    std::vector<Block> blocks;
+};
+
+
 
 #pragma pack(pop)
