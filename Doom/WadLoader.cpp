@@ -40,7 +40,7 @@ auto WadLoader::load_struct(fstream& wad_file, vector<Blockmap>& v) -> void {
         auto num_offsets = bm.header.col_num * bm.header.row_num;
         auto offsets = unique_ptr<uint16_t[]>(new uint16_t[num_offsets]);
         
-        wad_file.read(reinterpret_cast<char *>(offsets.get()), sizeof(int16_t)*num_offsets);
+        wad_file.read(reinterpret_cast<char *>(offsets.get()), sizeof(uint16_t)*num_offsets);
         
         for (int i=0; i<num_offsets; i++) {
             Block block;
@@ -77,7 +77,7 @@ auto WadLoader::load_file(const string& filename) -> void {
 
     // Load lumps
     vector<Vertex> vertexes;
-    vector<Thing>  things;
+    vector<Thing> things;
     vector<Sector> sectors;
     vector<Blockmap> blockmaps;
     
@@ -97,6 +97,7 @@ auto WadLoader::load_file(const string& filename) -> void {
     wad.header = header;
     wad.vertexes = vertexes;
     wad.things   = things;
+    wad.blockmaps = blockmaps;
     
     wad_file.close();
     
