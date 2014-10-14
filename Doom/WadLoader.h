@@ -49,7 +49,10 @@ private:
     auto load_header() -> void;
 
     template <typename T>
+    auto load(fstream& wad_file, const char* type, vector<T>& v) -> void;
+    
+    template <typename T>
     auto load_struct(fstream& wad_file, const char* type, vector<T>& v) -> void;
-    auto load_struct(fstream& wad_file, vector<Blockmap>& v) -> void;
+    
     
 };
