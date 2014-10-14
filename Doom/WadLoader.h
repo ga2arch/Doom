@@ -32,9 +32,11 @@ struct WadLump {
 struct Wad {
     WadHeader header;
 
-    vector<Thing>  things;
-    vector<Vertex> vertexes;
+    vector<Thing>    things;
+    vector<Vertex>   vertexes;
+    vector<Sector>   sectors;
     vector<Blockmap> blockmaps;
+    vector<Node>     nodes;
 };
 
 class WadLoader {
@@ -49,10 +51,10 @@ private:
     auto load_header() -> void;
 
     template <typename T>
-    auto load(fstream& wad_file, const char* type, vector<T>& v) -> void;
+    auto load(fstream& wad_file, vector<T>& v) -> void;
     
     template <typename T>
-    auto load_struct(fstream& wad_file, const char* type, vector<T>& v) -> void;
+    auto load_lump(fstream& wad_file, vector<T>& v) -> void;
     
     
 };
