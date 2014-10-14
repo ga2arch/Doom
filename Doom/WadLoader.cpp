@@ -14,11 +14,11 @@ template <typename T>
 auto WadLoader::load(fstream& wad_file, vector<T>& v) -> void {
     WadLump lump;
     wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
-    auto old = wad_file.tellg();
     
     auto name = TypeName<T>::Get();
 
     if (!strncasecmp(name, lump.name, strlen(name))) {
+        auto old = wad_file.tellg();
         wad_file.seekg(lump.filepos, wad_file.beg);
 
         load_lump(wad_file, v);
