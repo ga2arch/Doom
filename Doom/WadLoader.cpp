@@ -44,8 +44,6 @@ auto WadLoader::load_struct(fstream& wad_file, vector<Blockmap>& v) -> void {
         
         for (int i=0; i<num_offsets; i++) {
             Block block;
-
-            int16_t start;
             bool inblock = true;
 
             wad_file.seekg(lump.filepos+offsets[i]*sizeof(int16_t), wad_file.beg);
