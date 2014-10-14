@@ -46,8 +46,7 @@ auto WadLoader::load_struct(fstream& wad_file, vector<Blockmap>& v) -> void {
             Block block;
             bool inblock = true;
 
-            wad_file.seekg(lump.filepos+offsets[i]*sizeof(int16_t), wad_file.beg);
-            wad_file.read(reinterpret_cast<char *>(&start), sizeof(start));
+            wad_file.seekg(lump.filepos+offsets[i]*sizeof(uint16_t), wad_file.beg);
            
             while (inblock) {
                 int16_t linedef;
@@ -87,10 +86,6 @@ auto WadLoader::load_file(const string& filename) -> void {
         load_struct(wad_file, blockmaps);
     }
     
-    for (auto& e: blockmaps) {
-        cout << e.blocks[0].linedefs[0]  << "\t" << endl;
-        //printf("%.*s\n", 8, e.ceiling_tex);
-    }
     
     wad.header = header;
     wad.vertexes = vertexes;
@@ -99,4 +94,10 @@ auto WadLoader::load_file(const string& filename) -> void {
     
     wad_file.close();
     
+#ifdef DEBUG
+    for (auto& e: blockmaps) {
+        cout << e.blocks[0].linedefs[0]  << "\t" << endl;
+        //printf("%.*s\n", 8, e.ceiling_tex);
+    }
+#endif
 }
