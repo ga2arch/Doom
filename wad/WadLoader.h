@@ -51,4 +51,5 @@ private:
     auto load_lump(fstream& wad_file, vector<T>& v) -> void;
     
     auto load(fstream& wad_file) -> void;
+    auto check_type(const char* type, char name[8]) -> bool;
 };
