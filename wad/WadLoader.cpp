@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <string.h>
 
+template <typename T>
 auto WadLoader::load(fstream& wad_file) -> void {
     for (int i=0; i < wad.header.numlumps; i++) {
         
@@ -58,7 +59,8 @@ auto WadLoader::load_lump(fstream& wad_file, vector<T>& v) -> void {
     v.push_back(t);
 }
 
-auto WadLoader::load_lump(fstream& wad_file, vector<Blockmap>& v) -> void {
+template <>
+auto WadLoader::load_lump<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> void {
     Blockmap bm;
     int filepos = static_cast<int>(wad_file.tellg());
     
@@ -90,7 +92,8 @@ auto WadLoader::load_lump(fstream& wad_file, vector<Blockmap>& v) -> void {
     v.push_back(bm);
 }
 
-auto WadLoader::load_lump(fstream& wad_file, vector<Sprite> &v) -> void {
+template <>
+auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite> &v) -> void {
     Sprite s;
     WadLump lump;
     

@@ -46,12 +46,10 @@ public:
 private:
     Wad wad;
 
+    template <typename T>
     auto load(fstream& wad_file) -> void;
     
     template <typename T>
     auto load_lump(fstream& wad_file, vector<T>& v) -> void;
-    auto load_lump(fstream& wad_file, vector<Blockmap>& v) -> void;
-    auto load_lump(fstream& wad_file, vector<Sprite> &v) -> void {
-    
     
 };
