@@ -50,12 +50,12 @@ auto WadLoader::load_lump<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> v
     
     for (int i=0; i<num_offsets; i++) {
         Block block;
-        bool inblock = true;
+        int16_t linedef;
+        bool inblock (true);
         
         wad_file.seekg(filepos+offsets[i]*sizeof(uint16_t), wad_file.beg);
         
         while (inblock) {
-            int16_t linedef;
             wad_file.read(reinterpret_cast<char *>(&linedef), sizeof(linedef));
             block.linedefs.push_back(linedef);
 
