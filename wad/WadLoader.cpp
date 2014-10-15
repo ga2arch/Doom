@@ -10,18 +10,40 @@
 #include <assert.h>
 #include <string.h>
 
-template <typename T>
-auto WadLoader::load(fstream& wad_file, vector<T>& v) -> void {
-    WadLump lump;
-    wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
-    
-    auto name = TypeName<T>::Get();
-
-    if (!strncasecmp(name, lump.name, strlen(name))) {
+auto WadLoader::load(fstream& wad_file) -> void {
+    for (int i=0; i < wad.header.numlumps; i++) {
+        
+        WadLump lump;
+        char* type;
+        wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
+        
         auto old = wad_file.tellg();
         wad_file.seekg(lump.filepos, wad_file.beg);
+        
+        type = (char *)"Things";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.things);
+        }
 
-        load_lump(wad_file, v);
+        type = (char *)"Vertexes";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.vertexes);
+        }
+
+        type = (char *)"Ssectors";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.sectors);
+        }
+
+        type = (char *)"Nodes";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.nodes);
+        }
+
+        type = (char *)"Blockmap";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.blockmaps);
+        }
         
         wad_file.seekg(old, wad_file.beg);
     }
@@ -36,8 +58,7 @@ auto WadLoader::load_lump(fstream& wad_file, vector<T>& v) -> void {
     v.push_back(t);
 }
 
-template<>
-auto WadLoader::load_lump<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> void {
+auto WadLoader::load_lump(fstream& wad_file, vector<Blockmap>& v) -> void {
     Blockmap bm;
     int filepos = static_cast<int>(wad_file.tellg());
     
@@ -75,23 +96,18 @@ auto WadLoader::load_file(const string& filename) -> void {
     
     // Load header
     wad_file.read(reinterpret_cast<char*>(&header), sizeof(header));
-
     wad_file.seekg(header.infotableops, wad_file.beg);
     
-    for (int i=0; i < header.numlumps; i++) {
-        load(wad_file, wad.things);
-        load(wad_file, wad.vertexes);
-        load(wad_file, wad.sectors);
-        load(wad_file, wad.blockmaps);
-        load(wad_file, wad.nodes);
-    }
+    wad.header = header;
+ 
+    load(wad_file);
     
     wad_file.close();
     
 #ifdef DEBUG
-    for (auto& e: wad.sectors) {
+    for (auto& e: wad.nodes) {
         //cout << e.blocks[0].linedefs[1]  << "\t" << endl;
-        cout << e.ceiling_heigth << endl;
+        cout << e.node_ssector_num_left << endl;
         //printf("%.*s\n", 8, e.ceiling_tex);
     }
 #endif
