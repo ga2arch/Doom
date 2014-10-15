@@ -87,6 +87,7 @@ auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite>& v) -> void 
         }
         s.columns.push_back(posts);
     }
+    v.push_back(s);
 }
 
 auto WadLoader::load(fstream& wad_file) -> void {
