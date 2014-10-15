@@ -113,6 +113,11 @@ struct Blockmap {
 };
 ENABLE_TYPENAME(Blockmap, "Blockmap");
 
-
+struct Sprite {
+    int16_t width;
+    int16_t heigth;
+    int16_t left_offset;
+    int16_t top_offset;
+};
 
 #pragma pack(pop)

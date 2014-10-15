@@ -10,46 +10,6 @@
 #include <assert.h>
 #include <string.h>
 
-template <typename T>
-auto WadLoader::load(fstream& wad_file) -> void {
-    for (int i=0; i < wad.header.numlumps; i++) {
-        
-        WadLump lump;
-        char* type;
-        wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
-        
-        auto old = wad_file.tellg();
-        wad_file.seekg(lump.filepos, wad_file.beg);
-        
-        type = (char *)"Things";
-        if (!strncasecmp(type, lump.name, strlen(type))) {
-            load_lump(wad_file, wad.things);
-        }
-
-        type = (char *)"Vertexes";
-        if (!strncasecmp(type, lump.name, strlen(type))) {
-            load_lump(wad_file, wad.vertexes);
-        }
-
-        type = (char *)"Ssectors";
-        if (!strncasecmp(type, lump.name, strlen(type))) {
-            load_lump(wad_file, wad.sectors);
-        }
-
-        type = (char *)"Nodes";
-        if (!strncasecmp(type, lump.name, strlen(type))) {
-            load_lump(wad_file, wad.nodes);
-        }
-
-        type = (char *)"Blockmap";
-        if (!strncasecmp(type, lump.name, strlen(type))) {
-            load_lump(wad_file, wad.blockmaps);
-        }
-        
-        wad_file.seekg(old, wad_file.beg);
-    }
-    
-}
 
 template <typename T>
 auto WadLoader::load_lump(fstream& wad_file, vector<T>& v) -> void {
@@ -93,7 +53,7 @@ auto WadLoader::load_lump<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> v
 }
 
 template <>
-auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite> &v) -> void {
+auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite>& v) -> void {
     Sprite s;
     WadLump lump;
     
@@ -107,7 +67,47 @@ auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite> &v) -> void 
     wad_file.read(reinterpret_cast<char *>(offsets.get()), sizeof(uint16_t)*s.width);
     
     cout << s.heigth << endl;
+}
+
+auto WadLoader::load(fstream& wad_file) -> void {
+    for (int i=0; i < wad.header.numlumps; i++) {
+        
+        WadLump lump;
+        char* type;
+        wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
+        
+        auto old = wad_file.tellg();
+        wad_file.seekg(lump.filepos, wad_file.beg);
+        
+        type = (char *)"Things";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.things);
+        }
+        
+        type = (char *)"Vertexes";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.vertexes);
+        }
+        
+        type = (char *)"Ssectors";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.sectors);
+        }
+        
+        type = (char *)"Nodes";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.nodes);
+        }
+        
+        type = (char *)"Blockmap";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.blockmaps);
+        }
+        
+        wad_file.seekg(old, wad_file.beg);
     }
+    
+}
 
 auto WadLoader::load_file(const string& filename) -> void {
     WadHeader header;
