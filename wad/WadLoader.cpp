@@ -90,6 +90,22 @@ auto WadLoader::load_lump(fstream& wad_file, vector<Blockmap>& v) -> void {
     v.push_back(bm);
 }
 
+auto WadLoader::load_lump(fstream& wad_file, vector<Sprite> &v) -> void {
+    Sprite s;
+    WadLump lump;
+    
+    cout << "Sprite" << endl;
+    wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
+    
+    
+    wad_file.read(reinterpret_cast<char *>(&s), sizeof s);
+    auto offsets = unique_ptr<long[]>(new long[s.width]);
+    
+    wad_file.read(reinterpret_cast<char *>(offsets.get()), sizeof(uint16_t)*s.width);
+    
+    cout << s.heigth << endl;
+    }
+
 auto WadLoader::load_file(const string& filename) -> void {
     WadHeader header;
     fstream wad_file(filename, fstream::in | fstream::binary);
