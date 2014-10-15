@@ -8,6 +8,8 @@
 
 #include "Utils.h"
 
+using namespace std;
+
 #pragma pack(push, 1)
 
 struct Thing {
@@ -109,15 +111,20 @@ struct Block {
 
 struct Blockmap {
     Header header;
-    std::vector<Block> blocks;
+    vector<Block> blocks;
 };
 ENABLE_TYPENAME(Blockmap, "Blockmap");
 
-struct Sprite {
+struct SpriteHeader {
     int16_t width;
     int16_t heigth;
     int16_t left_offset;
     int16_t top_offset;
+};
+
+struct Sprite {
+    SpriteHeader header;
+    vector<vector<vector<char>>> columns;
 };
 
 #pragma pack(pop)

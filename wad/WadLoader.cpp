@@ -10,7 +10,6 @@
 #include <assert.h>
 #include <string.h>
 
-
 template <typename T>
 auto WadLoader::load_lump(fstream& wad_file, vector<T>& v) -> void {
     
@@ -48,25 +47,44 @@ auto WadLoader::load_lump<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> v
         
         bm.blocks.push_back(block);
     }
-    
     v.push_back(bm);
 }
 
 template <>
 auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite>& v) -> void {
     Sprite s;
-    WadLump lump;
-    
+    int filepos = static_cast<int>(wad_file.tellg());
+
     cout << "Sprite" << endl;
-    wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
     
+    wad_file.read(reinterpret_cast<char *>(&s.header), sizeof s.header);
+    auto offsets = unique_ptr<int[]>(new int[s.header.width]);
     
-    wad_file.read(reinterpret_cast<char *>(&s), sizeof s);
-    auto offsets = unique_ptr<long[]>(new long[s.width]);
+    wad_file.read(reinterpret_cast<char *>(offsets.get()),
+                  sizeof(int)*s.header.width);
     
-    wad_file.read(reinterpret_cast<char *>(offsets.get()), sizeof(uint16_t)*s.width);
-    
-    cout << s.heigth << endl;
+    for (int i=0; i < s.header.width; i++) {
+        wad_file.seekg(filepos+offsets[i], wad_file.beg);
+        
+        vector<vector<char>> posts;
+        
+        auto start = wad_file.get();
+        while (start != 0xFF) {
+            auto pixel_num = wad_file.get();
+            vector<char> post;
+            
+            wad_file.get();
+
+            for (int j=0; j<pixel_num; j++) {
+                post.push_back(wad_file.get());
+            }
+            
+            wad_file.get();
+            start = wad_file.get();
+            posts.push_back(post);
+        }
+        s.columns.push_back(posts);
+    }
 }
 
 auto WadLoader::load(fstream& wad_file) -> void {
@@ -104,6 +122,11 @@ auto WadLoader::load(fstream& wad_file) -> void {
             load_lump(wad_file, wad.blockmaps);
         }
         
+        type = (char *)"S_START";
+        if (!strncasecmp(type, lump.name, strlen(type))) {
+            load_lump(wad_file, wad.sprites);
+        }
+        
         wad_file.seekg(old, wad_file.beg);
     }
     
@@ -126,7 +149,7 @@ auto WadLoader::load_file(const string& filename) -> void {
 #ifdef DEBUG
     for (auto& e: wad.nodes) {
         //cout << e.blocks[0].linedefs[1]  << "\t" << endl;
-        cout << e.node_ssector_num_left << endl;
+        //cout << e.node_ssector_num_left << endl;
         //printf("%.*s\n", 8, e.ceiling_tex);
     }
 #endif
