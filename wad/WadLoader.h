@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <iterator>
 #include <vector>
 
 #include "Lumps.h"
@@ -44,11 +43,8 @@ class WadLoader {
 public:
     auto load_file(const string& filename) -> void;
     
-    
 private:
     Wad wad;
-    
-    auto load_header() -> void;
 
     template <typename T>
     auto load(fstream& wad_file, vector<T>& v) -> void;
