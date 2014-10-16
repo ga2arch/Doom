@@ -121,7 +121,6 @@ auto WadLoader::load(fstream& wad_file) -> void {
         
         if (check_type("S_START", lump.name)) {
             while (!check_type("S_END", lump.name)) {
-                cout << lump.name << endl;
                 load_lump(wad_file, wad.sprites);
                 
                 wad_file.seekg(old, wad_file.beg);
