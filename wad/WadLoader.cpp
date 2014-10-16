@@ -67,7 +67,8 @@ auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite>& v) -> void 
     
     for (int i=0; i < s.header.width; i++) {
         wad_file.seekg(filepos+offsets[i], wad_file.beg);
-        
+
+        // TODO: Better posts structure
         vector<vector<char>> posts;
         
         auto start = wad_file.get();
