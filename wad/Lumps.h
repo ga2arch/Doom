@@ -114,4 +114,8 @@ struct Sprite {
     vector<vector<vector<char>>> columns;
 };
 
+struct Flat {
+    char data[4096];
+};
+
 #pragma pack(pop)

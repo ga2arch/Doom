@@ -37,6 +37,7 @@ struct Wad {
     vector<Blockmap> blockmaps;
     vector<Node>     nodes;
     vector<Sprite>   sprites;
+    vector<Flat>     flats;
 };
 
 class WadLoader {
