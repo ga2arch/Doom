@@ -7,8 +7,7 @@
 //
 
 #include "WadLoader.h"
-#include <assert.h>
-#include <string.h>
+#include <cstring>
 
 auto WadLoader::check_type(const char* type, char name[8]) -> bool {
     return (strncasecmp(type, name, strlen(type)) == 0);
@@ -59,13 +58,15 @@ auto WadLoader::load_lumps<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> 
 }
 
 template <>
-auto WadLoader::load_lumps<Sprite>(fstream& wad_file, vector<Sprite>& v) -> void {
+auto WadLoader::load_lumps<Sprite>(fstream& wad_file, vector<Sprite>& v, WadLump& lump) -> void {
     Sprite s;
     int filepos = static_cast<int>(wad_file.tellg());
 
-    wad_file.read(reinterpret_cast<char *>(&s.header), sizeof s.header);
-    auto offsets = unique_ptr<int[]>(new int[s.header.width]);
+    wad_file.read(reinterpret_cast<char *>(&s.header), sizeof(s.header));
+    auto offsets = unique_ptr<int32_t[]>(new int32_t[s.header.width]);
     
+    s.name.assign(string(lump.name, 8));
+
     wad_file.read(reinterpret_cast<char *>(offsets.get()),
                   sizeof(int)*s.header.width);
     
@@ -125,15 +126,19 @@ auto WadLoader::load(fstream& wad_file) -> void {
         }
         
         if (check_type("Playpal", lump.name)) {
-            load_lump(wad_file, wad.playpal);
+            load_lump(wad_file, wad.palettes);
+        }
+        
+        if (check_type("Colormap", lump.name)) {
+            load_lump(wad_file, wad.colormap);
         }
         
         if (check_type("S_START", lump.name)) {
             while (!check_type("S_END", lump.name)) {
-                load_lump(wad_file, wad.sprites);
+                load_lumps(wad_file, wad.sprites, lump);
                 
                 wad_file.seekg(old, wad_file.beg);
-                wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
+                wad_file.read(reinterpret_cast<char *>(&lump), sizeof(lump));
                 
                 old = wad_file.tellg();
                 wad_file.seekg(lump.filepos, wad_file.beg);
@@ -142,7 +147,7 @@ auto WadLoader::load(fstream& wad_file) -> void {
         
         if (check_type("F_START", lump.name)) {
             while (!check_type("F_END", lump.name)) {
-                load_lump(wad_file, wad.flats);
+                load_lumps(wad_file, wad.flats);
                 
                 wad_file.seekg(old, wad_file.beg);
                 wad_file.read(reinterpret_cast<char *>(&lump), sizeof lump);
@@ -172,13 +177,13 @@ auto WadLoader::load_file(const string& filename) -> void {
     wad_file.close();
     
 #ifdef DEBUG
-    for (auto& e: wad.things) {
+    for (auto& e: wad.sprites) {
         //cout << e.blocks[0].linedefs[1]  << "\t" << endl;
         //cout << e.node_ssector_num_left << endl;
         //printf("%.*s\n", 8, e.ceiling_tex);
-        cout << e.angle << endl;
+        //cout << e.name << endl;
     }
         
-        cout << wad.playpal.palettes[0][0] << endl;
+    cout << wad.palettes[0][3] << endl;
 #endif
 }

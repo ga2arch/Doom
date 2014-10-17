@@ -110,6 +110,7 @@ struct SpriteHeader {
 };
 
 struct Sprite {
+    string name;
     SpriteHeader header;
     vector<vector<vector<char>>> columns;
 };
@@ -118,8 +119,7 @@ struct Flat {
     char data[4096];
 };
 
-struct Playpal {
-    char palettes[14][768];
-};
+typedef char Palettes[14][768];
+typedef char Colormap[34][256];
 
 #pragma pack(pop)
