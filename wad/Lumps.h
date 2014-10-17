@@ -118,4 +118,8 @@ struct Flat {
     char data[4096];
 };
 
+struct Playpal {
+    char palettes[14][768];
+};
+
 #pragma pack(pop)

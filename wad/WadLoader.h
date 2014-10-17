@@ -38,6 +38,7 @@ struct Wad {
     vector<Node>     nodes;
     vector<Sprite>   sprites;
     vector<Flat>     flats;
+    Playpal          playpal;
 };
 
 class WadLoader {
@@ -49,7 +50,10 @@ private:
     Wad wad;
 
     template <typename T>
-    auto load_lump(fstream& wad_file, vector<T>& v) -> void;
+    auto load_lump(fstream& wad_file, T& v) -> void;
+    
+    template <typename T>
+    auto load_lumps(fstream& wad_file, vector<T>& v) -> void;
     
     auto load(fstream& wad_file) -> void;
     auto check_type(const char* type, char name[8]) -> bool;

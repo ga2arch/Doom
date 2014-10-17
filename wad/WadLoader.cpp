@@ -15,15 +15,19 @@ auto WadLoader::check_type(const char* type, char name[8]) -> bool {
 }
 
 template <typename T>
-auto WadLoader::load_lump(fstream& wad_file, vector<T>& v) -> void {
-    
+auto WadLoader::load_lump(fstream& wad_file, T& v) -> void {
+    wad_file.read(reinterpret_cast<char *>(&v), sizeof v);
+}
+
+template <typename T>
+auto WadLoader::load_lumps(fstream& wad_file, vector<T>& v) -> void {
     T t;
     wad_file.read(reinterpret_cast<char *>(&t), sizeof t);
     v.push_back(t);
 }
 
 template <>
-auto WadLoader::load_lump<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> void {
+auto WadLoader::load_lumps<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> void {
     Blockmap bm;
     int filepos = static_cast<int>(wad_file.tellg());
     
@@ -55,7 +59,7 @@ auto WadLoader::load_lump<Blockmap>(fstream& wad_file, vector<Blockmap>& v) -> v
 }
 
 template <>
-auto WadLoader::load_lump<Sprite>(fstream& wad_file, vector<Sprite>& v) -> void {
+auto WadLoader::load_lumps<Sprite>(fstream& wad_file, vector<Sprite>& v) -> void {
     Sprite s;
     int filepos = static_cast<int>(wad_file.tellg());
 
@@ -101,23 +105,27 @@ auto WadLoader::load(fstream& wad_file) -> void {
         wad_file.seekg(lump.filepos, wad_file.beg);
         
         if (check_type("Things", lump.name)) {
-            load_lump(wad_file, wad.things);
+            load_lumps(wad_file, wad.things);
         }
         
         if (check_type("Vertexes", lump.name)) {
-            load_lump(wad_file, wad.vertexes);
+            load_lumps(wad_file, wad.vertexes);
         }
         
         if (check_type("Ssectors", lump.name)) {
-            load_lump(wad_file, wad.sectors);
+            load_lumps(wad_file, wad.sectors);
         }
         
         if (check_type("Nodes", lump.name)) {
-            load_lump(wad_file, wad.nodes);
+            load_lumps(wad_file, wad.nodes);
         }
         
         if (check_type("Blockmap", lump.name)) {
-            load_lump(wad_file, wad.blockmaps);
+            load_lumps(wad_file, wad.blockmaps);
+        }
+        
+        if (check_type("Playpal", lump.name)) {
+            load_lump(wad_file, wad.playpal);
         }
         
         if (check_type("S_START", lump.name)) {
@@ -164,11 +172,13 @@ auto WadLoader::load_file(const string& filename) -> void {
     wad_file.close();
     
 #ifdef DEBUG
-    for (auto& e: wad.flats) {
+    for (auto& e: wad.things) {
         //cout << e.blocks[0].linedefs[1]  << "\t" << endl;
         //cout << e.node_ssector_num_left << endl;
         //printf("%.*s\n", 8, e.ceiling_tex);
-        cout << e.data << endl;
+        cout << e.angle << endl;
     }
+        
+        cout << wad.playpal.palettes[0][0] << endl;
 #endif
 }
