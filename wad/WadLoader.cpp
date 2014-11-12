@@ -105,33 +105,13 @@ auto WadLoader::load(fstream& wad_file) -> void {
         auto old = wad_file.tellg();
         wad_file.seekg(lump.filepos, wad_file.beg);
         
-        if (check_type("Things", lump.name)) {
-            load_lumps(wad_file, wad.things);
-        }
-        
-        if (check_type("Vertexes", lump.name)) {
-            load_lumps(wad_file, wad.vertexes);
-        }
-        
-        if (check_type("Ssectors", lump.name)) {
-            load_lumps(wad_file, wad.sectors);
-        }
-        
-        if (check_type("Nodes", lump.name)) {
-            load_lumps(wad_file, wad.nodes);
-        }
-        
-        if (check_type("Blockmap", lump.name)) {
-            load_lumps(wad_file, wad.blockmaps);
-        }
-        
-        if (check_type("Playpal", lump.name)) {
-            load_lump(wad_file, wad.palettes);
-        }
-        
-        if (check_type("Colormap", lump.name)) {
-            load_lump(wad_file, wad.colormap);
-        }
+        if (check_type("Things",   lump.name))  load_lumps(wad_file, wad.things);
+        if (check_type("Vertexes", lump.name))  load_lumps(wad_file, wad.vertexes);
+        if (check_type("Ssectors", lump.name))  load_lumps(wad_file, wad.sectors);
+        if (check_type("Nodes",    lump.name))  load_lumps(wad_file, wad.nodes);
+        if (check_type("Blockmap", lump.name))  load_lumps(wad_file, wad.blockmaps);
+        if (check_type("Playpal",  lump.name))  load_lump (wad_file, wad.palettes);
+        if (check_type("Colormap", lump.name))  load_lump (wad_file, wad.colormap);
         
         if (check_type("S_START", lump.name)) {
             while (!check_type("S_END", lump.name)) {
